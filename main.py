@@ -513,7 +513,7 @@ class Window(QMainWindow, Ui_MainWindow):
                 for pair in iter(inqueues.get, sentinel):
                     source, target = pair
                     try:
-                        y = has_path(tr, source=source, target=target)
+                        y = isPath(tr, source=source, target=target)
                         # r = nx.all_simple_paths(tr, source=source, target=target, cutoff=10)
                         if y:
                             print(source, target)
@@ -546,7 +546,7 @@ class Window(QMainWindow, Ui_MainWindow):
             sentinel = None
 
             transaction = pd.read_csv(self.edge_csv_files[0][3])
-            tr = from_pandas_edgelist(transaction, 'from', 'to')
+            tr = pandas_to_graph(transaction, 'from', 'to')
             df = pd.read_csv(self.node_csv_files[0][3])
             employees = df[(df['work'].str.contains("بندر")) | (df['work'].str.contains('گمرک'))]
             smugglers = df[df['work'].str.contains('قاچاقچی')]

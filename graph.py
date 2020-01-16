@@ -16,18 +16,12 @@ class Graph(object):
         self.adjlist_outer_dict_factory = self.adjlist_outer_dict_factory
         self.adjlist_inner_dict_factory = self.adjlist_inner_dict_factory
         self.edge_attr_dict_factory = self.edge_attr_dict_factory
-
         self.graph = self.graph_attr_dict_factory()  # dictionary for graph attributes
         self._node = self.node_dict_factory()  # dictionary for node attr
-        # We store two adjacency lists:
-        # the  predecessors of node n are stored in the dict self._pred
-        # the successors of node n are stored in the dict self._succ=self._adj
         self._adj = self.adjlist_outer_dict_factory()  # empty adjacency dict
         self._pred = self.adjlist_outer_dict_factory()  # predecessor
         self._succ = self._adj  # successor
 
-        # attempt to load graph with data
-        # load graph attributes (must be after convert)
         self.graph.update(attr)
 
     def __iter__(self):
@@ -202,18 +196,8 @@ class Graph(object):
         self._node.clear()
         self.graph.clear()
 
-    # def reverse(self, copy=True):
-    #     if copy:
-    #         H = self.__class__()
-    #         H.graph.update(deepcopy(self.graph))
-    #         H.add_nodes_from((n, deepcopy(d)) for n, d in self._node.items())
-    #         H.add_edges_from((v, u, deepcopy(d)) for u, v, d
-    #                          in self.edges(data=True))
-    #         return H
-    #     return nx.graphviews.reverse_view(self)
 
-
-def from_pandas_edgelist(df, source='source', target='target'):
+def pandas_to_graph(df, source='source', target='target'):
     g = Graph()
     g.add_edges_from(zip(df[source], df[target]))
     return g
@@ -285,7 +269,7 @@ def _bidirectional_pred_succ(G, source, target):
     raise ("No path between %s and %s." % (source, target))
 
 
-def has_path(G, source, target):
+def isPath(G, source, target):
     try:
         bidirectional_shortest_path(G, source, target)
     except:
